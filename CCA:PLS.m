@@ -1,7 +1,7 @@
 %% Canonical Correlation Analysis
 
 %add the relevant toolbox required 
-%add csa_tbx
+%add multivariate_toolbox
 
 X = load(path);%load the first dataset (e.g., functional connectivity matrix)
 X = X.X
