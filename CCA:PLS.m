@@ -1,0 +1,49 @@
+%% Canonical Correlation Analysis
+
+%add the relevant toolbox required 
+%add csa_tbx
+
+X = load(path);%load the first dataset (e.g., functional connectivity matrix)
+X = X.X
+Y = load(path);%load the second dataset (e.g., structural connectivity matrix)
+Y = Y.Y
+%%
+% ----------------------------------------
+% Construct CCA structure for CCA analysis
+% ----------------------------------------
+CCA        = [];
+CCA.X      = X;
+CCA.Y      = Y;
+
+CCA.mode.cv.do              = 1; % Cross-validation settings
+CCA.mode.cv.numFolds        = 10;
+CCA.mode.cv.numPart         = 1; % How many times to repeat CV with different patitions
+CCA.mode.cv.permutePW       = 1; % Partition-wise permutations
+CCA.mode.cv.numPermPW       = 1000;
+CCA.mode.cv.permuteFW       = 0;
+CCA.mode.cv.numPermFW       = 1000;
+CCA.mode.cv.doSplitHalfDW   = 0;
+CCA.mode.cv.doSplitHalfFW   = 0;
+CCA.mode.cv.numBootDW       = 1000;
+CCA.mode.cv.doSaveNullsFW   = 0;
+CCA.mode.cv.doSaveNullsDW   = 0;
+
+CCA.mode.permClassic.do     = 0;        % Classical Permutations
+CCA.mode.permClassic.numPerm= 10000;
+
+CCA.mode.permBootstr.do       = 0;      % Split-half permutations
+CCA.mode.permBootstr.numPerm  = 1000;
+
+CCA.mode.standard.do    = 0;
+
+CCA.numComp             = min([6,...    % minimum number of components
+                       size(CCA.X,2)...
+                       size(CCA.Y,2)]);
+CCA.doSaveNulls         = 0;
+CCA.usePresetRandOrder  = 0;
+CCA.nameAnalysis        = 'prelim';
+
+CCA.lambdaX = 0.0001;% 'auto' or [0-1], where 0 is CCA, 1 is PLS, 0-1 is regularized CCA
+CCA.lambdaY = 0.0001;%
+tic, [cca] = csa_stats_rCVA_wrapper(CCA); toc
+save(path);%save the results
