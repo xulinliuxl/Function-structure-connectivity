@@ -1,11 +1,6 @@
 %project to yeo network - withinnetwork - for each subject individually 
 function withinnetwork = yeowithin_sub(aX);
 
-addpath(genpath('/rds/user/xl454/hpc-work/external-master'));
-load('/rds/user/xl454/hpc-work/Cam-CAN/FC_SC/rawdata/streamlineasSC/yeo/yeonumber.mat');
-load('/rds/user/xl454/hpc-work/Cam-CAN/FC_SC/thre050/SCstreamline/CM050mask.mat');
-load('/rds/user/xl454/hpc-work/Cam-CAN/FC_SC/rawdata/streamlineasSC/fcyeo1to8.mat');
-
 for b = 1:473;
     matrix(CM050mask) = aX(:,b);
     matrix(1,60516)=0;
